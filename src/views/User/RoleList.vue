@@ -369,8 +369,7 @@
         @close="isModalOpen = false"
         @save="saveRole"
     />
-    <Toast />
-    <ConfirmDialog></ConfirmDialog>
+
   </div>
 </template>
 

@@ -715,8 +715,8 @@ onBeforeUnmount(() => {
   background:
       linear-gradient(
           180deg,
-          #1e293b,
-          #0f172a
+          #341525,
+          #190b14
       );
 
   border:
@@ -1123,7 +1123,7 @@ onBeforeUnmount(() => {
 
 
 .badge-blue {
-  background: #2563eb;
+  background: #91385f;
   color: #fff;
 }
 

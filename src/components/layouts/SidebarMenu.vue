@@ -823,9 +823,9 @@ watch(
   background:
       linear-gradient(
           180deg,
-          #111827 0%,
-          #0f172a 48%,
-          #0b1220 100%
+          #341525 0%,
+          #24101c 48%,
+          #190b14 100%
       );
 
   border-left:
@@ -898,7 +898,7 @@ watch(
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-right: 0;
 
-  background: rgba(15, 23, 42, 0.96);
+  background: rgba(36, 16, 28, 0.96);
   color: #cbd5e1;
 
   box-shadow:
@@ -923,10 +923,10 @@ watch(
 .sidebar.is-collapsed .collapse-btn:hover {
   left: -10px;
   color: #fff;
-  background: rgba(37, 99, 235, 0.92);
-  border-color: rgba(96, 165, 250, 0.55);
+  background: rgba(145, 56, 95, 0.94);
+  border-color: rgba(220, 169, 190, 0.55);
   box-shadow:
-      -5px 0 18px rgba(37, 99, 235, 0.18),
+      -5px 0 18px rgba(145, 56, 95, 0.22),
       0 5px 16px rgba(0, 0, 0, 0.32);
 }
 
@@ -982,15 +982,15 @@ watch(
   background:
       linear-gradient(
           135deg,
-          #2563eb,
-          #4f46e5
+          #ac5279,
+          #762a4d
       );
 
   color: #fff;
 
   box-shadow:
       0 5px 14px
-      rgba(37, 99, 235, 0.25),
+      rgba(172, 82, 121, 0.30),
 
       inset 0 1px 0
       rgba(255, 255, 255, 0.16);
@@ -1201,11 +1201,11 @@ watch(
       rgba(255, 255, 255, 0.075);
 
   border-color:
-      rgba(96, 165, 250, 0.45);
+      rgba(199, 124, 155, 0.45);
 
   box-shadow:
       0 0 0 3px
-      rgba(37, 99, 235, 0.11);
+      rgba(145, 56, 95, 0.16);
 }
 
 
@@ -1495,7 +1495,7 @@ watch(
 .search-input:focus-visible {
   outline:
       2px solid
-      rgba(96, 165, 250, 0.75);
+      rgba(220, 169, 190, 0.85);
 
   outline-offset: 2px;
 }

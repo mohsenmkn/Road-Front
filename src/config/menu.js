@@ -4,7 +4,7 @@ import {
     LayoutDashboard, Users, ShieldCheck, Wallet, FileText, SquareStack,
     FolderTree, Building2, Settings, UsersRound, Network,
     FileSignature, Handshake, Receipt, Shield, PenTool, BarChart3,
-    FilePlus2, CreditCard, Briefcase, UserCheck, CircleDollarSign,
+    FilePlus2, CreditCard, Briefcase, UserCheck, CircleDollarSign, RefreshCw,
 } from 'lucide-vue-next'
 
 export const menuItems = [
@@ -55,6 +55,7 @@ export const menuItems = [
                 icon: FileText,
                 children: [
                     { key: 'road-bill-dashboard', label: 'داشبورد', to: '/road-transport/bill-financials', access: 'road_expenses.read', icon: LayoutDashboard },
+                    { key: 'road-bita-sync', label: 'همگام‌سازی بیتا', to: '/road-transport/bill-financials/sync', access: 'road_expenses.read', icon: RefreshCw },
                     { key: 'road-bill-income', label: 'درآمدها', to: '/road-transport/bill-financials/income', access: 'road_expenses.read', icon: CircleDollarSign },
                     { key: 'road-bill-costs', label: 'هزینه‌ها', to: '/road-transport/bill-financials/costs', access: 'road_expenses.read', icon: Wallet },
                     { key: 'road-bill-entry', label: 'ورود اطلاعات', to: '/road-transport/bill-financials/entry', access: 'road_manual_income.create', icon: FilePlus2 },

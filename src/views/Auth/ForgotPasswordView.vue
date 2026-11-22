@@ -578,20 +578,20 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ─── توکن‌های رنگ (تم آبی-سبز قرارداد) ───────────────── */
+/* ─── توکن‌های رنگ تم آلویی و طلایی ───────────────────── */
 :root,
 .forgot-page {
-  --accent: oklch(45% 0.15 250);
-  --accent-dark: oklch(38% 0.17 250);
-  --accent-ring: oklch(45% 0.15 250 / 0.14);
-  --gold: oklch(55% 0.15 155);
-  --gold-soft: oklch(55% 0.15 155 / 0.08);
-  --surface: oklch(99% 0.004 250);
-  --bg: oklch(97.5% 0.008 250);
-  --border: oklch(88% 0.008 250);
-  --text-main: oklch(15% 0.01 250);
-  --text-muted: oklch(45% 0.012 250);
-  --text-subtle: oklch(65% 0.008 250);
+  --accent: oklch(45% 0.15 350);
+  --accent-dark: oklch(38% 0.17 350);
+  --accent-ring: oklch(45% 0.15 350 / 0.14);
+  --gold: oklch(55% 0.15 78);
+  --gold-soft: oklch(55% 0.15 78 / 0.08);
+  --surface: oklch(99% 0.004 350);
+  --bg: oklch(97.5% 0.008 350);
+  --border: oklch(88% 0.008 350);
+  --text-main: oklch(15% 0.01 350);
+  --text-muted: oklch(45% 0.012 350);
+  --text-subtle: oklch(65% 0.008 350);
   --danger: oklch(50% 0.20 25);
   --danger-bg: oklch(97% 0.04 25);
   --danger-border: oklch(85% 0.08 25);
@@ -609,8 +609,8 @@ onUnmounted(() => {
   direction: rtl;
   background-color: var(--bg);
   background-image:
-      radial-gradient(ellipse 700px 500px at 90% -5%, oklch(45% 0.15 250 / 0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 600px 500px at 5% 105%, oklch(55% 0.15 155 / 0.07) 0%, transparent 70%);
+      radial-gradient(ellipse 700px 500px at 90% -5%, oklch(45% 0.15 350 / 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 600px 500px at 5% 105%, oklch(55% 0.15 78 / 0.07) 0%, transparent 70%);
   padding: 24px 16px;
   position: relative;
   overflow: hidden;
@@ -636,7 +636,7 @@ onUnmounted(() => {
   height: 360px;
   top: -80px;
   right: -80px;
-  background: oklch(45% 0.15 250 / 0.12);
+  background: oklch(45% 0.15 350 / 0.12);
 }
 
 .shape-two {
@@ -644,7 +644,7 @@ onUnmounted(() => {
   height: 320px;
   bottom: -80px;
   left: -80px;
-  background: oklch(55% 0.15 155 / 0.10);
+  background: oklch(55% 0.15 78 / 0.10);
 }
 
 .shape-three {
@@ -653,15 +653,15 @@ onUnmounted(() => {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: oklch(50% 0.12 200 / 0.06);
+  background: oklch(50% 0.12 325 / 0.06);
 }
 
 .background-grid {
   position: absolute;
   inset: 0;
   background-image:
-      linear-gradient(oklch(58% 0.008 250 / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(58% 0.008 250 / 0.06) 1px, transparent 1px);
+      linear-gradient(oklch(58% 0.008 350 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(58% 0.008 350 / 0.06) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
 }
@@ -700,13 +700,13 @@ onUnmounted(() => {
 }
 
 .forgot-card {
-  background: oklch(99.5% 0.003 250 / 0.97);
-  border: 1px solid oklch(90% 0.006 250 / 0.9);
+  background: oklch(99.5% 0.003 350 / 0.97);
+  border: 1px solid oklch(90% 0.006 350 / 0.9);
   border-radius: 24px;
   padding: 38px 34px;
   box-shadow:
-      0 20px 50px oklch(15% 0.01 250 / 0.10),
-      0 0 0 1px oklch(95% 0.004 250 / 0.5);
+      0 20px 50px oklch(15% 0.01 350 / 0.10),
+      0 0 0 1px oklch(95% 0.004 350 / 0.5);
   backdrop-filter: blur(10px);
 }
 
@@ -726,8 +726,8 @@ onUnmounted(() => {
   justify-content: center;
   margin-bottom: 14px;
   box-shadow:
-      0 8px 24px oklch(45% 0.15 250 / 0.28),
-      0 0 0 8px oklch(45% 0.15 250 / 0.08);
+      0 8px 24px oklch(45% 0.15 350 / 0.28),
+      0 0 0 8px oklch(45% 0.15 350 / 0.08);
   position: relative;
   transition: transform 0.3s ease;
 }
@@ -838,7 +838,7 @@ onUnmounted(() => {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   border-color: var(--accent);
   color: #fff;
-  box-shadow: 0 4px 12px oklch(45% 0.15 250 / 0.3);
+  box-shadow: 0 4px 12px oklch(45% 0.15 350 / 0.3);
 }
 
 .step.completed .step-label {
@@ -861,7 +861,7 @@ onUnmounted(() => {
   display: block;
   font-size: 13px;
   font-weight: 700;
-  color: oklch(30% 0.012 250);
+  color: oklch(30% 0.012 350);
   margin-bottom: 7px;
 }
 
@@ -892,7 +892,7 @@ onUnmounted(() => {
 }
 
 .auth-input.p-inputtext:hover {
-  border-color: oklch(75% 0.010 250) !important;
+  border-color: oklch(75% 0.010 350) !important;
 }
 
 .auth-input.p-inputtext:focus {
@@ -963,7 +963,7 @@ onUnmounted(() => {
 }
 
 .password-wrapper :deep(.password-input:hover) {
-  border-color: oklch(75% 0.010 250) !important;
+  border-color: oklch(75% 0.010 350) !important;
 }
 
 .password-wrapper :deep(.password-input:focus) {
@@ -986,7 +986,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, oklch(98% 0.005 250), oklch(97% 0.008 250));
+  background: linear-gradient(135deg, oklch(98% 0.005 350), oklch(97% 0.008 350));
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 14px;
@@ -1064,7 +1064,7 @@ onUnmounted(() => {
 }
 
 .otp-box.filled {
-  border-color: oklch(75% 0.010 250);
+  border-color: oklch(75% 0.010 350);
   background-color: #fff;
 }
 
@@ -1125,7 +1125,7 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  background: linear-gradient(135deg, oklch(98% 0.005 250), oklch(97% 0.008 250));
+  background: linear-gradient(135deg, oklch(98% 0.005 350), oklch(97% 0.008 350));
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -1167,31 +1167,31 @@ onUnmounted(() => {
   gap: 8px;
   font-family: inherit;
   margin-top: 6px;
-  box-shadow: 0 4px 16px oklch(45% 0.15 250 / 0.28);
+  box-shadow: 0 4px 16px oklch(45% 0.15 350 / 0.28);
   transition: all 0.2s;
 }
 
 .submit-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--accent-dark), var(--accent));
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px oklch(45% 0.15 250 / 0.36);
+  box-shadow: 0 6px 20px oklch(45% 0.15 350 / 0.36);
 }
 
 .submit-btn:disabled {
-  background: oklch(75% 0.010 250);
+  background: oklch(75% 0.010 350);
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
 
 .submit-btn.success-btn {
-  background: linear-gradient(135deg, var(--gold), oklch(48% 0.16 155));
-  box-shadow: 0 4px 16px oklch(55% 0.15 155 / 0.28);
+  background: linear-gradient(135deg, var(--gold), oklch(48% 0.16 78));
+  box-shadow: 0 4px 16px oklch(55% 0.15 78 / 0.28);
 }
 
 .submit-btn.success-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, oklch(48% 0.16 155), var(--gold));
-  box-shadow: 0 6px 20px oklch(55% 0.15 155 / 0.36);
+  background: linear-gradient(135deg, oklch(48% 0.16 78), var(--gold));
+  box-shadow: 0 6px 20px oklch(55% 0.15 78 / 0.36);
 }
 
 /* ─── لینک بازگشت ──────────────────────────────────────── */

@@ -100,6 +100,12 @@ const router = createRouter({
           meta: { title: 'داشبورد درآمد و هزینه بارنامه', permission: 'road_expenses.read' }
         },
         {
+          path: 'road-transport/bill-financials/sync',
+          name: 'road-transport.bita-sync',
+          component: () => import('@/views/RoadTransport/BitaSyncView.vue'),
+          meta: { title: 'همگام‌سازی بیتا', permission: 'road_expenses.read' }
+        },
+        {
           path: 'road-transport/bill-financials/income',
           name: 'road-transport.bill-financials.income',
           component: () => import('@/views/RoadTransport/BillFinancialsView.vue'),
