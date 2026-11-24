@@ -6,7 +6,7 @@
       <div class="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
         <div class="max-w-2xl">
           <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-blue-100">
-            <LayoutDashboard :size="15" /> پنل مدیریت سامانه حمل‌ونقل
+            <LayoutDashboard :size="15" /> داشبورد هزینه سفر رانندگان
           </div>
           <h1 class="text-2xl font-black tracking-tight sm:text-4xl">{{ greeting }}، {{ auth.displayName || 'مدیر سامانه' }}</h1>
           <p class="mt-3 max-w-xl text-sm leading-7 text-slate-300 sm:text-base">نمایی یکپارچه از سفرهای جاده‌ای و هزینه‌های ثبت‌شده؛ برای پیگیری عملیات روزانه از میانبرها استفاده کنید.</p>

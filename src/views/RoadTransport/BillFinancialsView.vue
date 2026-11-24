@@ -68,7 +68,6 @@ const tabs = computed(() => [
   { key: 'income', label: 'درآمدها', to: '/road-transport/bill-financials/income', icon: TrendingUp },
   { key: 'costs', label: 'هزینه‌ها', to: '/road-transport/bill-financials/costs', icon: Wallet },
   ...(auth.can('road_manual_income.create') ? [{ key: 'entry', label: 'ورود اطلاعات', to: '/road-transport/bill-financials/entry', icon: PenLine }] : []),
-  ...(auth.can('road_indirect_cost.manage') ? [{ key: 'indirect', label: 'ضرایب هزینه', to: '/road-transport/bill-financials/indirect-costs', icon: Wallet }] : []),
 ])
 
 const selectedVehicle = computed(() => vehicles.value.find((vehicle) => Number(vehicle.vehicle_code) === Number(form.value.vehicle_code)))
@@ -100,7 +99,7 @@ const fleetColumns = [
   { key: 'plate', label: 'پلاک', type: 'text' },
   { key: 'driver', label: 'راننده', type: 'text' },
   { key: 'revenue_rials', label: 'درآمد کل', type: 'number' },
-  { key: 'salary_rials', label: 'هزینه کامل حقوق', type: 'number' },
+  { key: 'driver_costs_rials', label: 'هزینه راننده', type: 'number' },
   { key: 'equipment_costs_rials', label: 'هزینه تجهیز', type: 'number' },
   { key: 'expense_rials', label: 'کل هزینه', type: 'number' },
   { key: 'net_rials', label: 'مانده', type: 'number' },
@@ -434,7 +433,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
             <p class="flex items-center gap-2 text-sm font-semibold text-amber-800"><span class="h-2.5 w-2.5 rounded-full bg-amber-500" />هزینه‌های ماه</p>
             <span v-if="loadingReport" class="mt-3 block h-9 w-44 animate-pulse rounded-lg bg-slate-100" />
             <p v-else class="mt-3 text-2xl font-black tabular-nums text-slate-900 sm:text-3xl">{{ money(report?.totals?.expense_rials) }} <small class="text-xs font-semibold text-slate-500">ریال</small></p>
-            <p class="mt-1.5 text-xs text-slate-500">حقوق و هزینه‌های محاسبه‌شده با ضرایب + هزینه‌های تجهیز</p>
+            <p class="mt-1.5 text-xs text-slate-500">هزینه‌های ثبت‌شده برای راننده و تجهیز در اسناد مالی</p>
           </div>
 
           <div class="hidden items-center px-1 text-3xl font-light text-slate-300 md:flex" aria-hidden="true">=</div>
@@ -449,7 +448,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
         <div class="flex flex-wrap items-center gap-x-6 gap-y-1.5 border-t border-slate-100 bg-slate-50 px-5 py-3 text-xs text-slate-600 sm:px-6">
           <span class="inline-flex items-center gap-1.5 font-semibold text-slate-700"><FileText :size="14" />{{ loadingReport ? '…' : faNumber(report?.totals?.bill_count) }} بارنامه صادرشده در {{ periodLabel }}</span>
-          <span v-if="section === 'dashboard' && report?.totals?.expense_complete === false" class="inline-flex items-center gap-1.5 text-amber-800"><AlertCircle :size="14" />خالص با هزینه‌های دریافت‌شده محاسبه شده؛ هزینهٔ بعضی کامیون‌ها ناقص است.</span>
+          <span v-if="section === 'dashboard' && report?.totals?.expense_complete === false" class="inline-flex items-center gap-1.5 text-amber-800"><AlertCircle :size="14" />هزینه‌های راننده یا تجهیز بعضی کامیون‌ها دریافت نشده؛ ماندهٔ ناوگان کامل نیست.</span>
         </div>
       </section>
 
@@ -498,7 +497,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
         <div v-if="loadingReport" class="space-y-3 p-5"><div v-for="i in 5" :key="i" class="h-12 animate-pulse rounded-xl bg-slate-100" /></div>
         <template v-else-if="report?.vehicles?.length">
-          <p v-if="report?.totals?.incomplete_cost_vehicles" class="flex items-start gap-2 border-b border-amber-100 bg-amber-50 px-5 py-3 text-xs leading-6 text-amber-900"><AlertCircle :size="15" class="mt-1 shrink-0" />هزینهٔ نهایی {{ faNumber(report.totals.incomplete_cost_vehicles) }} کامیون کامل نیست و تا دریافت حقوق و هزینهٔ تجهیز، ماندهٔ ناوگان محاسبه نمی‌شود.</p>
+          <p v-if="report?.totals?.incomplete_cost_vehicles" class="flex items-start gap-2 border-b border-amber-100 bg-amber-50 px-5 py-3 text-xs leading-6 text-amber-900"><AlertCircle :size="15" class="mt-1 shrink-0" />هزینهٔ {{ faNumber(report.totals.incomplete_cost_vehicles) }} کامیون کامل دریافت نشده و ماندهٔ ناوگان محاسبه نمی‌شود.</p>
           <div class="overflow-x-auto">
             <table :class="[ui.table, 'min-w-[1200px]']">
               <thead>
@@ -528,7 +527,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
                 <td :class="ui.td"><span v-if="vehicle.plate" class="plate">{{ vehicle.plate }}</span><span v-else class="text-slate-400">—</span></td>
                 <td :class="ui.td">{{ vehicle.driver || '—' }}<span v-if="vehicle.personnel_code" class="mr-1.5 text-xs text-slate-400">({{ vehicle.personnel_code }})</span></td>
                 <td :class="[ui.td, ui.num, 'font-bold text-emerald-800']">{{ formatRials(vehicle.revenue_rials) }}</td>
-                <td :class="[ui.td, ui.num]">{{ money(vehicle.salary_rials) }}</td>
+                <td :class="[ui.td, ui.num]">{{ money(vehicle.driver_costs_rials) }}</td>
                 <td :class="[ui.td, ui.num]">{{ money(vehicle.equipment_costs_rials) }}</td>
                 <td :class="[ui.td, ui.num]">
                   <span v-if="vehicle.expense_rials == null" class="rounded-md bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800" title="هزینه این کامیون هنوز کامل دریافت نشده است">ناقص</span>
@@ -554,16 +553,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
         <div v-else class="px-5 py-12 text-center text-sm text-slate-500">اطلاعاتی برای کامیون‌ها در این بازه پیدا نشد.</div>
       </section>
 
-      <!-- هزینه‌ها: فیش حقوق -->
-      <section v-if="section === 'costs' && report?.salary" :class="[ui.card, 'p-5 sm:p-6']">
-        <h2 class="text-base font-extrabold text-slate-900">خلاصه فیش حقوق راننده</h2>
-        <dl class="mt-4 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
-          <div class="bg-white p-4"><dt class="text-xs text-slate-500">روزکارکرد مؤثر</dt><dd class="mt-1.5 text-lg font-bold tabular-nums text-slate-900">{{ faNumber(report.salary.effective_days) }}</dd></div>
-          <div class="bg-white p-4"><dt class="text-xs text-slate-500">جمع مزایا</dt><dd class="mt-1.5 text-lg font-bold tabular-nums text-slate-900">{{ formatRials(report.salary.total_benefits) }} <small class="text-xs font-medium text-slate-500">ریال</small></dd></div>
-          <div class="bg-white p-4"><dt class="text-xs text-slate-500">جمع کسورات</dt><dd class="mt-1.5 text-lg font-bold tabular-nums text-slate-900">{{ formatRials(report.salary.total_deductions) }} <small class="text-xs font-medium text-slate-500">ریال</small></dd></div>
-          <div class="bg-amber-50 p-4"><dt class="text-xs font-semibold text-amber-800">هزینهٔ کامل حقوق</dt><dd class="mt-1.5 text-lg font-black tabular-nums text-amber-950">{{ formatRials(report.salary.salary_cost_rials) }} <small class="text-xs font-medium text-amber-800">ریال</small></dd><p class="mt-1 text-[11px] text-amber-800">خالص دریافتی × ضریب {{ report.totals.cost_coefficients?.map(item => item.title + ' × ' + item.factor).join('، ') || 'بدون ضریب' }}</p></div>
-        </dl>
+      <!-- هزینه‌های راننده از اسناد FIN3 -->
+      <section v-if="section === 'costs' && report?.driver" :class="ui.card">
+        <div :class="ui.cardHead">
+          <div><h2 class="text-base font-extrabold text-slate-900">هزینه‌های ثبت‌شده برای راننده</h2><p class="mt-1 text-xs text-slate-500">{{ report.driver.employee_name }} · کد پرسنلی {{ report.driver.personnel_code }} · اسناد FIN3 · {{ periodLabel }}</p></div>
+          <dl class="flex flex-wrap gap-x-6 gap-y-1 text-sm"><div class="flex items-center gap-2"><dt class="text-slate-500">جمع بدهکار:</dt><dd class="font-extrabold tabular-nums text-amber-900">{{ report.totals.driver_costs_rials == null ? '—' : `${formatRials(report.totals.driver_costs_rials)} ریال` }}</dd></div><div class="flex items-center gap-2"><dt class="text-slate-500">جمع بستانکار:</dt><dd class="font-extrabold tabular-nums text-emerald-800">{{ report.totals.driver_income_rials == null ? '—' : `${formatRials(report.totals.driver_income_rials)} ریال` }}</dd></div></dl>
+        </div>
+        <div v-if="report.driver_costs_by_account?.length" class="overflow-x-auto"><table :class="[ui.table, 'min-w-[720px]']"><thead><tr><th :class="ui.th">حساب</th><th :class="ui.th">کد حساب</th><th :class="[ui.th, 'text-left']">بدهکار (ریال)</th><th :class="[ui.th, 'text-left']">بستانکار (ریال)</th><th :class="[ui.th, 'text-left']">خالص ردیف (ریال)</th></tr></thead><tbody class="divide-y divide-slate-100"><tr v-for="account in report.driver_costs_by_account" :key="account.account_code || account.account_title"><td :class="[ui.td, 'font-semibold']">{{ account.account_title || 'بدون عنوان' }}</td><td :class="[ui.td, ui.num]">{{ account.account_code || '—' }}</td><td :class="[ui.td, ui.num, 'font-bold text-amber-900']">{{ formatRials(account.debit) }}</td><td :class="[ui.td, ui.num, 'font-bold text-emerald-800']">{{ formatRials(account.credit) }}</td><td :class="[ui.td, ui.num, 'font-bold text-slate-800']">{{ formatRials(account.amount) }}</td></tr></tbody></table></div>
+        <p v-else class="px-5 py-10 text-center text-sm text-slate-500">برای این راننده در بازهٔ انتخاب‌شده سندی ثبت نشده است.</p>
       </section>
+      <div v-else-if="section === 'costs' && report?.driver_cost_status && report.driver_cost_status !== 'available'" role="status" class="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-7 text-amber-900">{{ report.driver_cost_status === 'driver_not_mapped' ? 'برای این کامیون راننده یا کد پرسنلی ثبت نشده است.' : 'دریافت اسناد هزینه راننده از FIN3 انجام نشد.' }}</div>
 
       <!-- هزینه‌ها: تجهیز -->
       <section v-if="section === 'costs' && report?.equipment" :class="ui.card">
@@ -606,11 +605,6 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
           <span v-if="report.equipment_types?.length">{{ report.equipment_types.map((type) => `${type.title} (${type.id})`).join('، ') }}</span>
         </p>
       </div>
-
-      <section v-if="section === 'costs' && report?.indirect_expenses?.length" :class="ui.card">
-        <div :class="ui.cardHead"><div><h2 class="text-base font-extrabold text-slate-900">هزینه‌های محاسبه‌شده با ضرایب</h2><p class="mt-1 text-xs text-slate-500">خالص دریافتی فیش × ضریب هر ردیف</p></div><strong class="text-sm tabular-nums text-amber-900">{{ formatRials(report.totals.salary_rials) }} ریال</strong></div>
-        <div class="overflow-x-auto"><table :class="ui.table"><thead><tr><th :class="ui.th">عنوان</th><th :class="ui.th">راننده</th><th :class="[ui.th, 'text-left']">روزکارکرد</th><th :class="[ui.th, 'text-left']">مبلغ سهم (ریال)</th></tr></thead><tbody class="divide-y divide-slate-100"><tr v-for="cost in report.indirect_expenses" :key="cost.id"><td :class="ui.td">{{ cost.title }}<p v-if="cost.notes" class="mt-1 text-xs text-slate-500">{{ cost.notes }}</p></td><td :class="ui.td">{{ cost.employee_name }} <span class="text-xs text-slate-400">({{ cost.personnel_code }})</span></td><td :class="[ui.td, ui.num]">{{ cost.effective_days == null ? '—' : faNumber(cost.effective_days) }}</td><td :class="[ui.td, ui.num, 'font-bold text-amber-900']">{{ formatRials(cost.amount_rials) }}</td></tr></tbody></table></div>
-      </section>
 
       <!-- ورود اطلاعات -->
       <section v-if="section === 'indirect' && auth.can('road_indirect_cost.manage')" :class="ui.card">
@@ -768,13 +762,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
             </dl>
 
             <section class="rounded-xl border border-slate-200 p-4 sm:p-5">
-              <h3 class="font-extrabold text-slate-900">راننده و حقوق</h3>
-              <p class="mt-2 text-sm text-slate-700">{{ selectedDetailVehicle.driver || detailReport.salary?.employee_name || 'راننده ثبت نشده' }}<span v-if="selectedDetailVehicle.personnel_code || detailReport.salary?.personnel_code" class="mr-2 text-xs text-slate-400">کد پرسنلی: {{ selectedDetailVehicle.personnel_code || detailReport.salary.personnel_code }}</span></p>
-              <dl class="mt-4 grid gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 sm:grid-cols-3">
-                <div class="bg-amber-50 p-3"><dt class="text-xs text-amber-800">جمع مزایای فیش</dt><dd class="mt-1 font-bold tabular-nums text-amber-950">{{ detailReport.salary?.gross_salary == null ? '—' : `${formatRials(detailReport.salary.gross_salary)} ریال` }}</dd></div>
-                <div class="bg-white p-3"><dt class="text-xs text-slate-500">روزکارکرد مؤثر</dt><dd class="mt-1 font-bold tabular-nums">{{ detailReport.salary?.effective_days == null ? '—' : faNumber(detailReport.salary.effective_days) }}</dd></div>
-                <div class="bg-white p-3"><dt class="text-xs text-slate-500">جمع مزایا</dt><dd class="mt-1 font-bold tabular-nums">{{ detailReport.salary?.total_benefits == null ? '—' : `${formatRials(detailReport.salary.total_benefits)} ریال` }}</dd></div>
-              </dl>
+              <h3 class="font-extrabold text-slate-900">راننده</h3>
+              <p class="mt-2 text-sm text-slate-700">{{ selectedDetailVehicle.driver || detailReport.driver?.employee_name || 'راننده ثبت نشده' }}<span v-if="selectedDetailVehicle.personnel_code || detailReport.driver?.personnel_code" class="mr-2 text-xs text-slate-400">کد پرسنلی: {{ selectedDetailVehicle.personnel_code || detailReport.driver.personnel_code }}</span></p>
+              <p v-if="detailReport.driver_cost_status !== 'available'" class="mt-2 text-xs text-amber-700">{{ detailReport.driver_cost_status === 'driver_not_mapped' ? 'برای این کامیون کد پرسنلی راننده ثبت نشده است.' : detailReport.driver_cost_status === 'source_unavailable' ? 'ارتباط با FIN3 برقرار نشد و ریز هزینه راننده دریافت نشد.' : `وضعیت دریافت هزینه راننده: ${detailReport.driver_cost_status}` }}</p>
             </section>
 
             <section class="overflow-hidden rounded-xl border border-slate-200">
@@ -804,9 +794,14 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
               <p v-else class="px-4 py-8 text-center text-sm text-slate-500">ریز هزینه‌ای برای این دوره ثبت نشده است.</p>
             </section>
 
-            <section v-if="detailReport.indirect_expenses?.length" class="overflow-hidden rounded-xl border border-slate-200">
-              <div class="border-b border-slate-100 px-4 py-3"><h3 class="font-extrabold text-slate-900">هزینه‌های غیرمستقیم این کامیون</h3></div>
-              <div class="overflow-x-auto"><table :class="ui.table"><thead><tr><th :class="ui.th">عنوان هزینه</th><th :class="ui.th">راننده</th><th :class="[ui.th, 'text-left']">روزکارکرد</th><th :class="[ui.th, 'text-left']">مبلغ (ریال)</th></tr></thead><tbody class="divide-y divide-slate-100"><tr v-for="cost in detailReport.indirect_expenses" :key="cost.id"><td :class="ui.td">{{ cost.title }}<p v-if="cost.notes" class="mt-1 text-xs text-slate-500">{{ cost.notes }}</p></td><td :class="ui.td">{{ cost.employee_name }} ({{ cost.personnel_code }})</td><td :class="[ui.td, ui.num]">{{ cost.effective_days == null ? '—' : faNumber(cost.effective_days) }}</td><td :class="[ui.td, ui.num, 'font-bold text-amber-900']">{{ formatRials(cost.amount_rials) }}</td></tr></tbody></table></div>
+            <section class="overflow-hidden rounded-xl border border-slate-200">
+              <div class="border-b border-slate-100 px-4 py-3"><h3 class="font-extrabold text-slate-900">ریز هزینه‌های راننده</h3><p class="mt-1 text-xs text-slate-500">مبالغ حقوق، پاداش و سایر اقلام بر اساس حساب‌های اسناد FIN3 نمایش داده می‌شوند.</p></div>
+              <div v-if="detailReport.driver_costs?.length" class="overflow-x-auto">
+                <table :class="[ui.table, 'min-w-[800px]']"><thead><tr><th :class="ui.th">تاریخ</th><th :class="ui.th">شماره سند</th><th :class="ui.th">حساب</th><th :class="ui.th">شرح</th><th :class="[ui.th, 'text-left']">بدهکار (ریال)</th><th :class="[ui.th, 'text-left']">بستانکار (ریال)</th></tr></thead>
+                  <tbody class="divide-y divide-slate-100"><tr v-for="cost in detailReport.driver_costs" :key="cost.id || `${cost.voucher_id}-${cost.row_number}`" class="hover:bg-slate-50"><td :class="ui.td">{{ formatRoadDateTime(cost.voucher_date) }}</td><td :class="ui.td">{{ cost.voucher_number || cost.voucher_id }}</td><td :class="ui.td">{{ cost.account_title || '—' }}<span v-if="cost.account_code" class="mr-1 text-xs text-slate-400">({{ cost.account_code }})</span></td><td :class="ui.td">{{ cost.voucher_description || '—' }}</td><td :class="[ui.td, ui.num, 'font-bold text-amber-800']">{{ formatRials(cost.debit) }}</td><td :class="[ui.td, ui.num, 'font-bold text-emerald-800']">{{ formatRials(cost.credit) }}</td></tr></tbody>
+                </table>
+              </div>
+              <p v-else class="px-4 py-8 text-center text-sm text-slate-500">سند هزینه‌ای برای راننده در این دوره ثبت نشده است.</p>
             </section>
 
             <section class="overflow-hidden rounded-xl border border-slate-200">
