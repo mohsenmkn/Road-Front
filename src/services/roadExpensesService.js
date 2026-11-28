@@ -11,6 +11,7 @@ export const roadExpensesService = {
   latestBitaSync: () => api.get('/road-transport/bill-financials/bita-sync/latest'),
   syncBitaBills: (payload) => api.post('/road-transport/bill-financials/bita-sync', payload),
   createManualBillIncome: (payload) => api.post('/road-transport/bill-financials/manual-income', payload),
+  createManualBillExpense: (payload) => api.post('/road-transport/bill-financials/manual-expense', payload),
   indirectExpenses: () => api.get('/road-transport/bill-financials/indirect-expenses'),
   createIndirectExpense: (payload) => api.post('/road-transport/bill-financials/indirect-expenses', payload),
   updateIndirectExpense: (id, payload) => api.put(`/road-transport/bill-financials/indirect-expenses/${id}`, payload),

@@ -518,7 +518,7 @@ async function deleteRow(rowData) {
 function formatDate(value, format = 'jYYYY/jMM/jDD') {
   if (!value) return '-'
   // Add your date formatting logic here
-  return new Date(value).toLocaleDateString('fa-IR')
+  return new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(value))
 }
 
 function formatMoney(value) {

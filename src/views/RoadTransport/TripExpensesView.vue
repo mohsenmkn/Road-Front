@@ -262,7 +262,7 @@ onMounted(load)
 
             <div>
               <label class="te-label">تاریخ و ساعت هزینه (شمسی)</label>
-              <DatePicker v-model="form.spent_at" type="datetime" format="YYYY-MM-DD HH:mm:ss" display-format="jYYYY/jMM/jDD HH:mm" :convert-numbers="true" placeholder="انتخاب تاریخ و ساعت" input-class="te-input" />
+              <DatePicker v-model="form.spent_at" class="te-date-picker" type="datetime" format="YYYY-MM-DD HH:mm:ss" display-format="jYYYY/jMM/jDD HH:mm" locale="fa" :auto-submit="true" :wrapper-submit="true" :convert-numbers="true" placeholder="انتخاب تاریخ و ساعت" input-class="te-date-input" color="#0e7a57" />
               <p class="te-hint"><Clock3 :size="14" />تاریخ هزینه باید در بازه مجاز همین سفر باشد.</p>
             </div>
 
@@ -632,6 +632,48 @@ onMounted(load)
 }
 
 /* ورودی‌ها (برای ورودی DatePicker هم اعمال می‌شود) */
+.te-date-picker,
+:deep(.te-date-picker) {
+  display: block;
+  width: 100%;
+  margin-top: 0.375rem;
+}
+:deep(.te-date-picker .vpd-input-group) {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--te-line);
+  border-radius: 0.625rem;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+:deep(.te-date-picker .vpd-input-group:focus-within) {
+  border-color: var(--te-green);
+  box-shadow: 0 0 0 4px rgb(14 122 87 / 0.15);
+}
+:deep(.te-date-picker .vpd-input-group input.te-date-input) {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  flex: 1 1 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.7rem 0.875rem;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--te-text);
+  outline: none;
+  box-shadow: none;
+}
+:deep(.te-date-picker .vpd-icon-btn) {
+  flex: 0 0 2.75rem;
+  padding: 0;
+  color: #fff;
+}
 .te-input,
 :deep(.te-input) {
   box-sizing: border-box;

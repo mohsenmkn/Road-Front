@@ -95,7 +95,7 @@ const trips = ref([])
 const categories = ref([])
 const loading = ref(false)
 const error = ref('')
-const todayLabel = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'full' }).format(new Date())
+const todayLabel = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'full', timeZone: 'Asia/Tehran' }).format(new Date())
 const greeting = computed(() => {
   const hour = new Date().getHours()
   if (hour < 11) return 'صبح بخیر'

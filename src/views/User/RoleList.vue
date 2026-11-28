@@ -586,7 +586,7 @@ const getInitials = (name) => {
 
 const formatDate = (date) => {
   if (!date) return '-';
-  return new Date(date).toLocaleDateString('fa-IR');
+  return new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(date));
 };
 
 const getRoleColor = (roleName) => {

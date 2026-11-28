@@ -128,7 +128,7 @@ const getInitials = (name) => {
   return parts.length >= 2 ? `${parts[0][0]}‌${parts[1][0]}` : parts[0][0]
 }
 
-const formatDate = (date) => (date ? new Date(date).toLocaleDateString('fa-IR') : '-')
+const formatDate = (date) => (date ? new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(date)) : '-')
 
 const errText = (key) => {
   let value = errors.value[key]

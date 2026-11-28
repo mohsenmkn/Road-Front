@@ -164,7 +164,7 @@ export function useDateFormatter() {
     // دریافت نام روز هفته
     const getPersianWeekday = (date) => {
         const d = date instanceof Date ? date : new Date(date)
-        const formatter = new Intl.DateTimeFormat('fa-IR', { weekday: 'long' })
+        const formatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { weekday: 'long', timeZone: 'Asia/Tehran' })
         return formatter.format(d)
     }
 

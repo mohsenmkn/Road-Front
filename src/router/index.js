@@ -53,8 +53,8 @@ const router = createRouter({
         {
           path: '',
           name: 'Dashboard',
-          component: () => import('@/views/RoadTransport/BillFinancialsView.vue'),
-          meta: { title: 'داشبورد درآمد و هزینه‌ها', permission: 'road_expenses.read' }
+          component: HomeDashboard,
+          meta: { title: 'داشبورد' }
         },
 
         // ═══════════════════════════════════════════════
@@ -94,12 +94,6 @@ const router = createRouter({
           meta: { title: 'هزینه سفر جاده‌ای', permission: 'road_expenses.read' }
         },
         {
-          path: 'road-transport/driver-expenses/dashboard',
-          name: 'road-transport.driver-expenses.dashboard',
-          component: HomeDashboard,
-          meta: { title: 'داشبورد هزینه سفر رانندگان', permission: 'road_expenses.read' }
-        },
-        {
           path: 'road-transport/bill-financials',
           name: 'road-transport.bill-financials',
           component: () => import('@/views/RoadTransport/BillFinancialsView.vue'),
@@ -131,7 +125,9 @@ const router = createRouter({
         },
         {
           path: 'road-transport/bill-financials/indirect-costs',
-          redirect: '/road-transport/bill-financials/costs'
+          name: 'road-transport.bill-financials.indirect-costs',
+          component: () => import('@/views/RoadTransport/BillFinancialsView.vue'),
+          meta: { title: 'هزینه‌های غیرمستقیم ناوگان', permission: 'road_indirect_cost.manage' }
         },
         {
           path: 'road-transport/expenses/:tripId',

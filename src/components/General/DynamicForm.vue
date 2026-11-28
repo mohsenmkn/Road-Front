@@ -92,13 +92,14 @@
         <DatePicker
             v-else-if="field.type === 'date'"
             v-model="formData[field.name]"
+            class="p-date-picker w-full"
             format="YYYY-MM-DD"
             display-format="jYYYY/jMM/jDD"
             :placeholder="field.placeholder || 'انتخاب تاریخ'"
-            :input-class="errors[field.name] ? 'p-invalid-date' : ''"
+            :input-class="errors[field.name] ? 'p-date-input p-invalid-date' : 'p-date-input'"
             locale="fa"
             :auto-submit="true"
-            class="w-full"
+            color="#b45309"
             @change="handleBlur(field)"
         />
 
@@ -525,8 +526,51 @@ watch(() => props.modelId, () => {
   border-top: 1px solid #e5e7eb;
 }
 
-/* Date Picker Invalid State */
-:deep(.p-invalid-date input) {
+/* Persian date picker: keep the input and its calendar button aligned. */
+.p-date-picker,
+:deep(.p-date-picker) {
+  display: block;
+  width: 100%;
+}
+
+:deep(.p-date-picker .vpd-input-group) {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--p-inputtext-border-color, #cbd5e1);
+  border-radius: var(--p-inputtext-border-radius, 0.5rem);
+  background: var(--p-inputtext-background, #fff);
+}
+
+:deep(.p-date-picker .vpd-input-group:focus-within) {
+  border-color: var(--p-primary-color, #b45309);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--p-primary-color, #b45309) 16%, transparent);
+}
+
+:deep(.p-date-picker .vpd-input-group input.p-date-input) {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  flex: 1 1 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  color: var(--p-inputtext-color, #0f172a);
+  outline: 0;
+  box-shadow: none;
+}
+
+:deep(.p-date-picker .vpd-input-group .vpd-icon-btn) {
+  flex: 0 0 2.75rem;
+  padding: 0;
+  color: #fff;
+}
+
+:deep(.p-date-picker .vpd-input-group input.p-invalid-date) {
   border-color: #ef4444 !important;
 }
 

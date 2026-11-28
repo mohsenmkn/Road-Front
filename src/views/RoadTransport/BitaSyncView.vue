@@ -6,7 +6,7 @@ import { formatRoadDateTime } from '@/utils/roadTransportFormat'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
-const todayParts = new Intl.DateTimeFormat('en-US-u-ca-persian', { year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date())
+const todayParts = new Intl.DateTimeFormat('en-US-u-ca-persian', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tehran' }).formatToParts(new Date())
 const datePart = (type) => todayParts.find((item) => item.type === type)?.value || '01'
 const today = `${datePart('year')}/${datePart('month')}/${datePart('day')}`
 const form = ref({ from: `${datePart('year')}/01/01`, to: today })

@@ -21,7 +21,7 @@ const loading = ref(false)
 const errorEl = ref(null)
 
 const currentStep = computed(() => ({ bill: 0, otp: 0, start: 1, active: 2 }[phase.value] ?? 0))
-const deadline = computed(() => trip.value?.ends_at ? new Date(trip.value.ends_at).toLocaleString('fa-IR') : '')
+const deadline = computed(() => trip.value?.ends_at ? new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(trip.value.ends_at)) : '')
 const tripExpired = computed(() => !!trip.value?.ends_at && new Date(trip.value.ends_at) < new Date())
 const amountDisplay = computed({
   get: () => amount.value ? new Intl.NumberFormat('fa-IR').format(Number(amount.value)) : '',
@@ -135,7 +135,7 @@ function formatExpenseAmount(value) {
 }
 
 function formatExpenseDate(value) {
-  return new Intl.DateTimeFormat('fa-IR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value))
+  return new Intl.DateTimeFormat('fa-IR-u-ca-persian', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(value))
 }
 
 onMounted(() => { if (token.value) loadTrip() })

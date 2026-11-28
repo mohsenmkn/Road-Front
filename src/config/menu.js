@@ -48,7 +48,6 @@ export const menuItems = [
         label: 'حمل و نقل جاده‌ای',
         icon: Wallet,
         children: [
-            { key: 'road-driver-expenses-dashboard', label: 'داشبورد هزینه سفر رانندگان', to: '/road-transport/driver-expenses/dashboard', access: 'road_expenses.read', icon: LayoutDashboard },
             { key: 'road-trip-expenses', label: 'هزینه سفر', to: '/road-transport/expenses', access: 'road_expenses.read', icon: Receipt },
             {
                 key: 'road-bill-financials',
@@ -60,6 +59,7 @@ export const menuItems = [
                     { key: 'road-bill-income', label: 'درآمدها', to: '/road-transport/bill-financials/income', access: 'road_expenses.read', icon: CircleDollarSign },
                     { key: 'road-bill-costs', label: 'هزینه‌ها', to: '/road-transport/bill-financials/costs', access: 'road_expenses.read', icon: Wallet },
                     { key: 'road-bill-entry', label: 'ورود اطلاعات', to: '/road-transport/bill-financials/entry', access: 'road_manual_income.create', icon: FilePlus2 },
+                    { key: 'road-bill-indirect-costs', label: 'هزینه‌های غیرمستقیم', to: '/road-transport/bill-financials/indirect-costs', access: 'road_indirect_cost.manage', icon: Wallet },
                 ],
             },
             { key: 'road-routes', label: 'تنظیم مسیرها', to: '/road-transport/routes', access: 'road_expenses.manage_categories', icon: Network },
